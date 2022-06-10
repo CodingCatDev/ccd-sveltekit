@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Welcome to SvelteKit by CodingCat.dev</h1>
+
+Checkout Full Courses.
+<a href="https://CodingCat.dev">CodingCat.dev</a>
+
+<div>
+	See our <a href="/podcasts">Podcasts</a> in SvelteKit.
+</div>
