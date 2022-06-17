@@ -4,6 +4,7 @@ import { config } from '@services/notion';
 import { NotionToMarkdown } from 'notion-to-md';
 import NotionPageToHtml from 'notion-page-to-html';
 
+console.log(process.env.NOTION_TUTORIALS);
 // Initializing a client
 const notionClient = new Client({
 	auth: process.env.NOTION_TOKEN
@@ -241,6 +242,7 @@ export const queryPurrfectStreamBySlug = async (slug: string) => {
 			}
 		]
 	});
+	// console.log(JSON.stringify(raw));
 	return await formatPosts(raw, 'podcast');
 };
 
@@ -281,11 +283,128 @@ export const getPurrfectStreamPageHTML = async (slug: string) => {
 	if (!page) {
 		return null;
 	}
-
-	const { title, icon, cover, html } = await NotionPageToHtml.convert(raw.results.at(0).url);
+	console.log('url', raw.results.at(0).url);
+	const { html } = await NotionPageToHtml.convert(raw.results.at(0).url, { bodyContentOnly: true });
 
 	return {
 		...raw.results[0],
 		html
 	};
+};
+
+export const queryNotionDbBySlug = async (_type: string, slug: string, preview?: boolean) => {
+	let filter: any;
+	let sorts: any;
+	filter = {
+		and: [
+			{
+				property: 'slug',
+				url: {
+					contains: slug
+				}
+			}
+		]
+	};
+
+	if (!preview) {
+		filter = {
+			...filter,
+			and: [
+				...filter.and,
+				...[
+					{
+						property: 'published',
+						select: {
+							equals: 'published'
+						}
+					}
+				]
+			]
+		};
+	}
+
+	if (_type == 'framework' || _type == 'language') {
+		filter = {
+			and: [
+				{
+					property: 'slug',
+					url: {
+						contains: slug
+					}
+				}
+			]
+		};
+		sorts = [
+			{
+				property: 'title',
+				direction: 'ascending'
+			}
+		];
+	}
+
+	const raw = await notionClient.databases.query({
+		database_id: getNotionDbByType(_type),
+		filter,
+		sorts
+	});
+	return await formatPosts(raw, _type, preview);
+};
+
+export const getNotionPageMarkdown = async ({
+	_type,
+	slug,
+	preview
+}: {
+	_type: PostType;
+	slug?: string;
+	preview: boolean | undefined;
+}) => {
+	let pageId;
+	let page;
+
+	if (slug) {
+		const raw = await queryNotionDbBySlug(_type, slug, preview);
+		if (!raw.results.length) {
+			return null;
+		}
+		page = raw.results.at(0);
+		pageId = page?.id;
+	}
+	if (!page) {
+		return null;
+	}
+	if (!pageId) {
+		return null;
+	}
+	let content = '';
+	const blocks = await n2m.pageToMarkdown(pageId);
+	content += n2m.toMarkdownString(blocks);
+
+	return {
+		...page,
+		content
+	};
+};
+
+export const getNotionDbByType = (_type: string) => {
+	switch (_type) {
+		case PostType.post:
+			return config.postsDb;
+		case PostType.tutorial:
+			return config.tutorialsDb;
+		case PostType.course:
+			return config.coursesDb;
+		case PostType.podcast:
+			return config.purrfectStreamsDb;
+		case PostType.lesson:
+			return config.lessonsDb;
+		case PostType.page:
+			return config.pagesDb;
+		case 'framework':
+			return config.frameworksDb;
+		case 'language':
+			return config.languagesDb;
+		default:
+			return config.authorsDb;
+	}
 };

@@ -3,7 +3,6 @@
 	 * @type {any}
 	 */
 	let item;
-	console.log(item);
 </script>
 
 <!-- <div style="display:flex; flex-direction:column">

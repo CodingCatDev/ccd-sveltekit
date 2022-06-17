@@ -5,8 +5,10 @@
 	let posts;
 </script>
 
-<div style="display:flex; flex-direction:column">
+<ul style="display:flex; flex-direction:column">
 	{#each posts.results as post}
-		<a href={`podcasts/${post.slug}`}>{post.title}</a>
+		<li>
+			<a href={`podcasts/${post.slug}`}>{post.title}</a>
+		</li>
 	{/each}
-</div>
+</ul>
