@@ -1,11 +1,11 @@
 import { queryPurrfectStreamByReleased } from '@services/notion.server';
 
 export async function get({ params }: { params: any }) {
-	const posts = await queryPurrfectStreamByReleased(10000);
+	const raw = await queryPurrfectStreamByReleased(10000);
 
-	if (posts) {
+	if (raw && raw.results) {
 		return {
-			body: { posts }
+			body: { posts: raw.results }
 		};
 	}
 

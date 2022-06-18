@@ -16,6 +16,7 @@ const config = {
 		alias: {
 			'@services': 'src/services',
 			'@config': 'src/config'
+			// $lib: 'src/lib'
 		}
 	}
 };

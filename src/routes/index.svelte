@@ -6,3 +6,4 @@ Checkout Full Courses.
 <div>
 	See our <a href="/podcasts">Podcasts</a> in SvelteKit.
 </div>
+<button class="btn btn-primary">Button</button>
