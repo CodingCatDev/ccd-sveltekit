@@ -1,14 +1,12 @@
-<script>
-	export /**
-	 * @type {any}
-	 */
-	let item;
+<script lang="ts">
+	import type { Post } from '$lib/models/post.model';
+	import Card from '$lib/components/Card.svelte';
+	export let post: Post;
+	console.log(post);
 </script>
 
-<!-- <div style="display:flex; flex-direction:column">
-	{#each posts.results as post}
-		<a href={post.slug}>{post.title}</a>
-	{/each}
-</div> -->
-
-{@html item.html}
+{#if post?.cover?.external?.url}
+	<Card image={{ src: post?.cover?.external?.url, alt: post?.title }} />
+{:else}
+	<Card />
+{/if}

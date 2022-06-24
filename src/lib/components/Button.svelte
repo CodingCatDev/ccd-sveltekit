@@ -1,6 +1,8 @@
 <script lang="ts">
-	let primary = true;
-	export { primary };
+	import type { Types, Sizes } from '$lib/models/daisyui.model';
+	let type: Types = 'primary';
+	let size: Sizes = 'md';
+	export { type, size };
 </script>
 
-<button class={`btn btn-${primary ? 'primary' : 'secondary'}`}>Button</button>
+<button class={`btn btn-${type} btn-${size}`}>Button</button>

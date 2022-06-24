@@ -1,10 +1,8 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
-	import type { Post } from 'src/models/post.model';
-	let posts: Post[];
+	import type { Post } from '$lib/models/post.model';
+	export let posts: Post[];
 </script>
 
-<Button primary={false} />
 <ul style="display:flex; flex-direction:column">
 	{#each posts as post}
 		<li>

@@ -1,3 +1,7 @@
+<script lang="ts">
+	import Button from '$lib/components/Button.svelte';
+</script>
+
 <h1>Welcome to SvelteKit by CodingCat.dev</h1>
 
 Checkout Full Courses.
@@ -6,4 +10,4 @@ Checkout Full Courses.
 <div>
 	See our <a href="/podcasts">Podcasts</a> in SvelteKit.
 </div>
-<button class="btn btn-primary">Button</button>
+<Button>Button</Button>

@@ -283,13 +283,8 @@ export const getPurrfectStreamPageHTML = async (slug: string) => {
 	if (!page) {
 		return null;
 	}
-	console.log('url', raw.results.at(0).url);
-	const { html } = await NotionPageToHtml.convert(raw.results.at(0).url, { bodyContentOnly: true });
 
-	return {
-		...raw.results[0],
-		html
-	};
+	return page;
 };
 
 export const queryNotionDbBySlug = async (_type: string, slug: string, preview?: boolean) => {

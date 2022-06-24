@@ -3,11 +3,11 @@ import { getPurrfectStreamPageHTML, getPurrfectStreamPageMarkdown } from '@servi
 /** @type {import('./__types/[id]').RequestHandler} */
 export async function get({ params }: { params: { slug: string } }) {
 	// `params.slug` comes from [slug].ts
-	const item = await getPurrfectStreamPageHTML(params.slug);
+	const post = await getPurrfectStreamPageHTML(params.slug);
 
-	if (item) {
+	if (post) {
 		return {
-			body: { item }
+			body: { post }
 		};
 	}
 
